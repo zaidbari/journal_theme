@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "header.twig" %}
+    <title>{{ page_title ? page_title | upper ~ ' | ' : '' }} {{ APP_NAME | upper }}</title>
+</head>
+<body>
+    {% include "navbar.twig" %}
+    <main>{% block content %}{% endblock %}</main>
+    {% include "footer.twig" %}
+    {% include "scripts.twig" %}
+</body>
+</html>

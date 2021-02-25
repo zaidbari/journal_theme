@@ -1,0 +1,49 @@
+<div class="container-fluid my-5">
+    <div class="row mb-5">
+        <div class="col-md-2"></div>
+        <div class="col-md-7">
+            <div class="article-list mb-4">
+                <h3>Latest Articles</h3>
+                {% for article in articles %}
+                    <div class="category px-md-4 pb-1 p-2"><h5>{{ article.type }} <small>(showing 5 articles)</small></h5></div>
+                    {% for a in article.data %}
+                        <article class="article px-md-4 py-4 p-2">
+                           <h5><a class="title" href="/article/{{ a.id }}">{{ a.title }}</a></h5>
+                           <p class="text-muted">{{ a.authors_names }}</p>
+                           <p class="text-muted"><span class="fw-bold">Published at: </span> {{ a.published_at|date('d-m-Y h:i a') }}</p>
+                           <a href="/article/{{ a.id }}" class="me-3">Abstract</a>
+                           {% if a.doi != null %}
+                           | <a target="_blank" rel="noreferrer noopener" href="https://dx.doi.org/{{ a.doi }}" class="ms-3">DOI: {{ a.doi }}</a>
+                            {% endif %}
+                        </article>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+
+            <div class="editors bg-light px-md-5 px-2 py-5">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h3>About Editor in Chief</h3>
+                        <p class="lead">{{ journal.chief_editor }}</p>
+                        <p>{{ journal.chief_editor_bio }}</p>
+                        <p>{{ journal.chief_editor_message }}</p>
+                    </div>
+                    <div class="col-md-4">
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 px-md-4">
+            {% if featured_article != false %}
+                <h3 class="mb-4">Featured Article</h3>
+                <img loading="lazy" src="//epublishing.io/storage/{{ featured_article.image }}" alt="featured article cover" class="w-100 mb-4 shadow">
+                <p class="lead">{{ featured_article.title }}</p>
+                <p>{{ featured_article.abstract }}</p>
+                <a href="/article/{{ featured_article.id }}" class="btn btn-secondary btn-sm">Read full article</a>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
