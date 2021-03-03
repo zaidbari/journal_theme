@@ -5,18 +5,20 @@
             <div class="article-list mb-4">
                 <h3>Latest Articles</h3>
                 {% for article in articles %}
-                    <div class="category px-md-4 pb-1 p-2"><h5>{{ article.type }} <small>(showing 5 articles)</small></h5></div>
-                    {% for a in article.data %}
-                        <article class="article px-md-4 py-4 p-2">
-                           <h5><a class="title" href="/article/{{ a.id }}">{{ a.title }}</a></h5>
-                           <p class="text-muted">{{ a.authors_names }}</p>
-                           <p class="text-muted"><span class="fw-bold">Published at: </span> {{ a.published_at|date('d-m-Y h:i a') }}</p>
-                           <a href="/article/{{ a.id }}" class="me-3">Abstract</a>
-                           {% if a.doi != null %}
-                           | <a target="_blank" rel="noreferrer noopener" href="https://dx.doi.org/{{ a.doi }}" class="ms-3">DOI: {{ a.doi }}</a>
-                            {% endif %}
-                        </article>
-                    {% endfor %}
+                    {% if article.data|length > 0 %}
+                        <div class="category px-md-4 pb-1 p-2"><h5>{{ article.type }}</h5></div>
+                        {% for a in article.data %}
+                            <article class="article px-md-4 py-4 p-2">
+                               <h5><a class="title" href="/article/{{ a.id }}">{{ a.title }}</a></h5>
+                               <p class="text-muted">{{ a.authors_names }}</p>
+                               <p class="text-muted"><span class="fw-bold">Published at: </span> {{ a.published_at|date('d-m-Y h:i a') }}</p>
+                               <a href="/article/{{ a.id }}" class="me-3">Abstract</a>
+                               {% if a.doi != null %}
+                               | <a target="_blank" rel="noreferrer noopener" href="https://dx.doi.org/{{ a.doi }}" class="ms-3">DOI: {{ a.doi }}</a>
+                                {% endif %}
+                            </article>
+                        {% endfor %}
+                    {% endif %}
                 {% endfor %}
             </div>
 
@@ -29,7 +31,6 @@
                         <p>{{ journal.chief_editor_message }}</p>
                     </div>
                     <div class="col-md-4">
-
 
                     </div>
                 </div>

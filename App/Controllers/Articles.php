@@ -66,7 +66,27 @@ class Articles
 		]);
 	}
 
-	public function current(  )
+	public function pdf($request, $response)
+	{
+		$id = $request->param('id');
+		$a = HTTPRequester::HTTPGet(Config::env('API_URL') . 'articles/' .$id. '/show')['body'];
+
+		if($a != null) {
+			$pdf = array_search($id.'.pdf',array_diff(scandir($_SERVER['DOCUMENT_ROOT'].'/files/pdf'), array('..', '.')),true);
+			if($pdf != false) {
+				$pdf = $_SERVER['DOCUMENT_ROOT'].'/files/pdf/' . $id . '.pdf';
+			} else {
+				header('location: /404');
+				exit();
+			}
+		} else {
+			header('location: /404');
+			exit();
+		}
+		$response->file($pdf);
+	}
+
+	public function current()
 	{
 		$articles_data = HTTPRequester::HTTPGet(Config::env('API_URL') . 'issues/current/articles')['body']->data;
 
@@ -81,7 +101,7 @@ class Articles
 		]);
 	}
 
-	public function latest(  )
+	public function latest()
 	{
 		$articles_data = HTTPRequester::HTTPGet(Config::env('API_URL') . 'articles')['body']->data;
 		$articles = [];
