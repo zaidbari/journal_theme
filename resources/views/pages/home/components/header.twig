@@ -14,9 +14,11 @@
             <div class="col-lg-7 align-self-center col-md-8 px-4">
                 <h1>{{ journal.title }}</h1>
                 <p class="lead">{{ data.subtitle }}</p>
-                <p>{{ journal.short_desc }}</p>
-                <a href="#" class="btn btn-primary"><i class="bi align-text-bottom bi-file-earmark-ruled me-2"></i> Submit a manuscript</a>
-                <a href="/current-issue" class="btn btn-outline-secondary">Current Issue</a>
+                {{ journal.short_desc|raw }}
+                <div>
+                    <a href="#" class="btn btn-primary"><i class="bi align-text-bottom bi-file-earmark-ruled me-2"></i> Submit a manuscript</a>
+                    <a href="/current-issue" class="btn btn-outline-secondary">Current Issue</a>
+                </div>
             </div>
         </div>
     </div>

@@ -3,11 +3,11 @@
         <div class="col-md-2"></div>
         <div class="col-md-7">
             <div class="article-list mb-4">
-                <h3>Latest Articles</h3>
+                <h3>Current Issue</h3>
                 {% for article in articles %}
                     {% if article.data|length > 0 %}
                         <div class="category px-md-4 pb-1 p-2"><h5>{{ article.type }}</h5></div>
-                        {% for a in article.data %}
+                        {% for a in article.data|cast_to_array %}
                             <article class="article px-md-4 py-4 p-2">
                                <h5><a class="title" href="/article/{{ a.id }}">{{ a.title }}</a></h5>
                                <p class="text-muted">{{ a.authors_names }}</p>
@@ -22,22 +22,25 @@
                 {% endfor %}
             </div>
 
-            <div class="editors bg-light px-md-5 px-2 py-5">
-                <div class="row">
-                    <div class="col-md-8">
-                        <h3>About Editor in Chief</h3>
-                        <p class="lead">{{ journal.chief_editor }}</p>
-                        <p>{{ journal.chief_editor_bio }}</p>
-                        <p>{{ journal.chief_editor_message }}</p>
-                    </div>
-                    <div class="col-md-4">
+            {% if journal.chief_editor != null %}
+                <div class="editors bg-light px-md-5 px-2 py-5">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h3>About Editor in Chief</h3>
+                            <p class="lead">{{ journal.chief_editor }}</p>
+                            <p>{{ journal.chief_editor_bio }}</p>
+                            <p>{{ journal.chief_editor_message }}</p>
+                        </div>
+                        <div class="col-md-4">
 
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
+
         </div>
         <div class="col-md-3 px-md-4">
-            {% if featured_article != false %}
+            {% if featured_article %}
                 <h3 class="mb-4">Featured Article</h3>
                 <img loading="lazy" src="//epublishing.io/storage/{{ featured_article.image }}" alt="featured article cover" class="w-100 mb-4 shadow">
                 <p class="lead">{{ featured_article.title }}</p>

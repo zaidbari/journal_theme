@@ -22,7 +22,7 @@ class Home extends Controller
 	public function index()
 	{
 		$journal_data = HTTPRequester::HTTPGet(Config::env('API_URL') . 'home')['body']->data;
-		$articles_data = HTTPRequester::HTTPGet(Config::env('API_URL') . 'articles')['body']->data;
+		$articles_data = HTTPRequester::HTTPGet(Config::env('API_URL') . 'issues/current/articles')['body']->data;
 
 
 		if(!empty($journal_data->featured_articles)) $featured_article = $journal_data->featured_articles[0];

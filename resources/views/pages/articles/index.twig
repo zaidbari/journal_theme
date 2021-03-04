@@ -3,16 +3,15 @@
     <div class="bg-light py-5">
         <div class="container text-center">
             <h3 class="pb-1">
-                {{ article.type }} |
-                {{ article.published_at|date('Y') }},
+                {{ article.type }}, |
                 {% if article.code != null %}
                     {{ article.code }}
                 {% else %}
-                    {{ article. first_page }}, {{ article.last_page }}
+                    Page ({{ article. first_page }} - {{ article.last_page }})
                 {% endif %}
             </h3>
             <div class="mb-3">
-                Volume {{ article.volume }}, Issue {{ article.issue }}
+                Volume {{ article.volume }}, Issue {{ article.issue }}, {{ article.published_at|date('Y') }}
             </div>
             {% if article.doi != null %}
                 <a target="_blank" rel="noreferrer noopener" href="https://dx.doi.org/{{ article.doi }}" class="btn btn-outline-secondary btn-sm">DOI: {{ article.doi }}</a>
@@ -28,12 +27,12 @@
             <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                 <p class="lead"><span class="fw-bold text-secondary">Authors: </span>{{ article.authors_names }}</p><hr />
                 <h3>Abstract</h3>
-                <p class="lead">{{ article.abstract }}</p>
-                <hr /><p class="lead"><span class="fw-bold text-secondary">Keywords: </span>{{ article.keywords }}</p><hr />
+                {{ article.abstract|raw }}
+                <hr /><p class="lead"><span class="fw-bold text-secondary">Keywords: </span>{{ article.tags }}</p><hr />
                 <h3>Request Permission</h3>
                 <p>
-                    If you wish to reuse any part or all of this article please contact the copyright holder, contact@ijmdc.com.
-                   <br /> Copyright ©{{ "now"|date('Y')}} Discover STM Publishing. All Rights Reserved.
+                    If you wish to reuse any part or all of this article please contact the copyright holder, editorbiomedica@uhs.edu.pk.
+                   <br /> Copyright ©{{ "now"|date('Y')}} University of Health Sciences, Lahore, Pakistan. All Rights Reserved.
                 </p>
             </div>
             <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">

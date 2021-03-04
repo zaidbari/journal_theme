@@ -1,8 +1,4 @@
-<?php
-
-
-namespace App\Controllers;
-
+<?php namespace App\Controllers;
 
 use App\Lib\Config;
 use App\Lib\HTTPRequester;
@@ -13,21 +9,17 @@ class Articles
 	public function show($request)
 	{
 		$id = $request->param('id');
-		$a = HTTPRequester::HTTPGet(Config::env('API_URL') . 'articles/' .$id. '/show')['body'];
+		$a = HTTPRequester::HTTPGet(Config::env('API_URL') . 'articles/' . $id . '/show')['body'];
 
-		$journal = [];
-		$article = [];
-		$html = false;
-		$pdf = false;
-
-		if($a != null) {
+		if($a != null && !isset($a->error)) {
 			$journal_data = HTTPRequester::HTTPGet(Config::env('API_URL') . 'home');
 			$journal = $journal_data['body']->data->journal;
-			$html = array_search($id.'.html',array_diff(scandir($_SERVER['DOCUMENT_ROOT'].'/files/html'), array('..', '.')),true);
-			$pdf = array_search($id.'.pdf', array_diff(scandir($_SERVER['DOCUMENT_ROOT'].'/files/pdf'), array('..', '.')),true);
+			$html = array_search(Config::env('APP_ABBRV') . '-' . $id.'.html',array_diff(scandir($_SERVER['DOCUMENT_ROOT'].'/files/html'), array('..', '.')),true);
+			$pdf = array_search(Config::env('APP_ABBRV') . '-' . $id.'.pdf', array_diff(scandir($_SERVER['DOCUMENT_ROOT'].'/files/pdf'), array('..', '.')),true);
 			$article = $a->data;
 		} else {
-			header('location: /404');
+			header('Location: /404');
+			exit();
 		}
 
 		View::render('articles/index', [
@@ -36,7 +28,7 @@ class Articles
 			'html_file' => $html,
 			'pdf_file' => $pdf,
 			'journal' => $journal,
-			'self_link' => Config::env('DOMAIN') . '/article/' . $id
+			'self_link' => Config::env('DOMAIN') . 'article/' . $id
 		]);
 	}
 
@@ -45,10 +37,10 @@ class Articles
 		$id = $request->param('id');
 		$a = HTTPRequester::HTTPGet(Config::env('API_URL') . 'articles/' .$id. '/show')['body'];
 
-		if($a != null) {
-			$html = array_search($id.'.html',array_diff(scandir($_SERVER['DOCUMENT_ROOT'].'/files/html'), array('..', '.')),true);
+		if($a != null && !isset($a->error)) {
+			$html = array_search( Config::env('APP_ABBRV') . '-' . $id.'.html',array_diff(scandir($_SERVER['DOCUMENT_ROOT'].'/files/html'), array('..', '.')),true);
 			if($html != false) {
-				$html = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/files/html/' . $id . '.html');
+				$html = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/files/html/' . Config::env('APP_ABBRV') . '-' . $id . '.html');
 			} else {
 				$html = '<h1 class="text-center">No Fulltext document found.</h1>';
 			}
@@ -69,16 +61,9 @@ class Articles
 	public function pdf($request, $response)
 	{
 		$id = $request->param('id');
-		$a = HTTPRequester::HTTPGet(Config::env('API_URL') . 'articles/' .$id. '/show')['body'];
-
-		if($a != null) {
-			$pdf = array_search($id.'.pdf',array_diff(scandir($_SERVER['DOCUMENT_ROOT'].'/files/pdf'), array('..', '.')),true);
-			if($pdf != false) {
-				$pdf = $_SERVER['DOCUMENT_ROOT'].'/files/pdf/' . $id . '.pdf';
-			} else {
-				header('location: /404');
-				exit();
-			}
+		$pdf = array_search( Config::env('APP_ABBRV') . '-' .$id.'.pdf',array_diff(scandir($_SERVER['DOCUMENT_ROOT'].'/files/pdf'), array('..', '.')),true);
+		if($pdf != false) {
+			$pdf = $_SERVER['DOCUMENT_ROOT'].'/files/pdf/' . Config::env('APP_ABBRV') . '-' . $id . '.pdf';
 		} else {
 			header('location: /404');
 			exit();

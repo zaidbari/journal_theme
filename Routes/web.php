@@ -22,8 +22,8 @@ $router->res('/year-[:year]/volume-[:volume]/issue-[:issue]-[:id]', 'Issues@inde
 
 $router->res('/page/[*:slug]', 'Pages@index');
 
-$router->res('/receive-pdf', 'ReceiveFiles@pdf', 'POST');
-$router->res('/receive-html', 'ReceiveFiles@html', 'POST');
+$router->res('/receive-file', 'ReceiveFiles@index', 'POST');
+//$router->res('/receive-html', 'ReceiveFiles@html', 'POST');
 
 
 

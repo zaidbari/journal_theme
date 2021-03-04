@@ -10,7 +10,7 @@
                 {% for article in articles %}
                     {% if article.data|length > 0 %}
                         <div class="category px-md-4 pb-1 p-2"><h5>{{ article.type }}</h5></div>
-                        {% for a in article.data %}
+                        {% for a in article.data|cast_to_array %}
                             <article class="article px-md-4 py-4 p-2">
                                 <h5><a class="title" href="/article/{{ a.id }}">{{ a.title }}</a></h5>
                                 <p class="text-muted">{{ a.authors_names }}</p>
